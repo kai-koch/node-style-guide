@@ -8,13 +8,22 @@ This guide was created by [Felix Geisendörfer](http://felixge.de/) and is
 licensed under the [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/)
 license. You are encouraged to fork this repository and make adjustments
 according to your preferences.
+* 2012-12-02: adjusted and clariefied according to personal preferences by [Kai Koch][kai-koch]
 
 ![Creative Commons License](http://i.creativecommons.org/l/by-sa/3.0/88x31.png)
 
-## 2 Spaces for indention
+[kai-koch]: https://github.com/kai-koch/
 
-Use 2 spaces for indenting your code and swear an oath to never mix tabs and
+## 4 Spaces for indention
+
+Use 4 spaces for indenting your code and swear an oath to never mix tabs and
 spaces - a special kind of hell is awaiting you otherwise.
+While it is common in the node.js community to use only 2 spaces as ident,
+my personal preference are 4 space. 4 spaces make your code more readable.
+
+But if you code on a colaborative project, either use the standard set by the creator or if you start a new project arrange that all contributors use the same number of spaces. 
+
+
 
 ## No trailing whitespace
 
@@ -56,13 +65,13 @@ var foo = "bar";
 
 ## Opening braces go on the same line
 
-Your opening braces go on the same line as the statement.
+Your opening braces go on the same line as the statement. In other programming languages this might be just personal preference, in JavaScript it is madatory!
 
 *Right:*
 
 ```js
 if (true) {
-  console.log('winning');
+    console.log('winning');
 }
 ```
 
@@ -71,8 +80,15 @@ if (true) {
 ```js
 if (true)
 {
-  console.log('losing');
+    console.log('losing');
 }
+// the following returns undefined instead of the object,
+// because of the semicolon insertion the JavaScript interpreter does!
+return
+{
+    foo: "bar"
+};
+
 ```
 
 Also, notice the use of whitespace before and after the condition statement.
@@ -80,19 +96,23 @@ Also, notice the use of whitespace before and after the condition statement.
 ## Declare one variable per var statement
 
 Declare one variable per var statement, it makes it easier to re-order the
-lines. Ignore [Crockford][crockfordconvention] on this, and put those
-declarations wherever they make sense.
+lines.
+
+Exception variables that only get declared for later use.
+
+JavaScript has no block scope, there for put "var" declaration at the begining of the function scoope, otherwise you might confuse programmers comming from other languages. See [Crockford][crockfordconvention] on this.
 
 *Right:*
 
 ```js
+var i, k, key, len, tmp;
 var keys   = ['foo', 'bar'];
 var values = [23, 42];
 
 var object = {};
 while (items.length) {
-  var key = keys.pop();
-  object[key] = values.pop();
+    key = keys.pop();
+    object[key] = values.pop();
 }
 ```
 
@@ -105,8 +125,13 @@ var keys = ['foo', 'bar'],
     key;
 
 while (items.length) {
-  key = keys.pop();
-  object[key] = values.pop();
+    key = keys.pop();
+    object[key] = values.pop();
+}
+
+var len = 4711;
+for (var i=0; i < len; i++) {
+    // ... stuff ...
 }
 ```
 
@@ -189,8 +214,8 @@ keys when your interpreter complains:
 ```js
 var a = ['hello', 'world'];
 var b = {
-  good: 'code',
-  'is generally': 'pretty',
+    good: 'code',
+    'is generally': 'pretty',
 };
 ```
 
@@ -198,7 +223,7 @@ var b = {
 
 ```js
 var a = [
-  'hello', 'world'
+    'hello', 'world'
 ];
 var b = {"good": 'code'
         , is generally: 'pretty'
@@ -215,7 +240,7 @@ the triple equality operator as it will work just as expected.
 ```js
 var a = 0;
 if (a === '') {
-  console.log('winning');
+    console.log('winning');
 }
 
 ```
@@ -225,7 +250,7 @@ if (a === '') {
 ```js
 var a = 0;
 if (a == '') {
-  console.log('losing');
+    console.log('losing');
 }
 ```
 
@@ -239,8 +264,8 @@ The ternary operator should not be used on a single line. Split it up into multi
 
 ```js
 var foo = (a === b)
-  ? 1
-  : 2;
+    ? 1
+    : 2;
 ```
 
 *Wrong:*
@@ -259,7 +284,7 @@ be forever grateful.
 ```js
 var a = [];
 if (!a.length) {
-  console.log('winning');
+    console.log('winning');
 }
 ```
 
@@ -267,12 +292,12 @@ if (!a.length) {
 
 ```js
 Array.prototype.empty = function() {
-  return !this.length;
+    return !this.length;
 }
 
 var a = [];
 if (a.empty()) {
-  console.log('losing');
+    console.log('losing');
 }
 ```
 
@@ -285,7 +310,7 @@ Any non-trivial conditions should be assigned to a descriptive variable:
 ```js
 var isAuthorized = (user.isAdmin() || user.isModerator());
 if (isAuthorized) {
-  console.log('winning');
+    console.log('winning');
 }
 ```
 
@@ -293,7 +318,7 @@ if (isAuthorized) {
 
 ```js
 if (user.isAdmin() || user.isModerator()) {
-  console.log('losing');
+    console.log('losing');
 }
 ```
 
@@ -312,15 +337,15 @@ as possible.
 
 ```js
 function isPercentage(val) {
-  if (val < 0) {
-    return false;
-  }
-
-  if (val > 100) {
-    return false;
-  }
-
-  return true;
+    if (val < 0) {
+        return false;
+    }
+    
+    if (val > 100) {
+        return false;
+    }    
+        
+    return true;
 }
 ```
 
@@ -328,15 +353,15 @@ function isPercentage(val) {
 
 ```js
 function isPercentage(val) {
-  if (val >= 0) {
-    if (val < 100) {
-      return true;
+    if (val >= 0) {
+        if (val < 100) {
+            return true;
+        } else {
+            return false;
+        }
     } else {
-      return false;
+        return false;
     }
-  } else {
-    return false;
-  }
 }
 ```
 
@@ -345,8 +370,8 @@ further:
 
 ```js
 function isPercentage(val) {
-  var isInRange = (val >= 0 && val <= 100);
-  return isInRange;
+    var isInRange = (val >= 0 && val <= 100);
+    return isInRange;
 }
 ```
 
@@ -359,7 +384,7 @@ will produce better stack traces, heap and cpu profiles.
 
 ```js
 req.on('end', function onEnd() {
-  console.log('winning');
+    console.log('winning');
 });
 ```
 
@@ -367,7 +392,7 @@ req.on('end', function onEnd() {
 
 ```js
 req.on('end', function() {
-  console.log('losing');
+    console.log('losing');
 });
 ```
 
@@ -379,11 +404,11 @@ Use closures, but don't nest them. Otherwise your code will become a mess.
 
 ```js
 setTimeout(function() {
-  client.connect(afterConnect);
+    client.connect(afterConnect);
 }, 1000);
 
 function afterConnect() {
-  console.log('winning');
+    console.log('winning');
 }
 ```
 
@@ -391,9 +416,9 @@ function afterConnect() {
 
 ```js
 setTimeout(function() {
-  client.connect(function() {
-    console.log('losing');
-  });
+    client.connect(function() {
+        console.log('losing');
+    });
 }, 1000);
 ```
 
@@ -403,15 +428,26 @@ Use slashes for both single line and multi line comments. Try to write
 comments that explain higher level mechanisms or clarify difficult
 segments of your code. Don't use comments to restate trivial things.
 
+__Exception:__ use [JsDoc-style][JsDoc] comments for describing variables, functions and classes, this will help generating automatic documentation, using compiling tools like [Google's Closure Tools][googleclosure] and code-hinds and code-completion of common IDEs like [Netbeans][netbeans] or [Eclipse][eclipse]
+
+[eclipse]: http://www.eclipse.org/
+[googleclosure]: https://developers.google.com/closure/
+[JsDoc]: http://code.google.com/p/jsdoc-toolkit/
+[netbeans]: http://netbeans.org/features/ide/editor.html
+
 *Right:*
 
 ```js
-// 'ID_SOMETHING=VALUE' -> ['ID_SOMETHING=VALUE'', 'SOMETHING', 'VALUE']
+// 'ID_SOMETHING=VALUE' -> ['ID_SOMETHING=VALUE', 'SOMETHING', 'VALUE']
 var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
 
-// This function has a nasty side effect where a failure to increment a
-// redis counter used for statistics will cause an exception. This needs
-// to be fixed in a later iteration.
+/**
+ * This function has a nasty side effect where a failure to increment a
+ * redis counter used for statistics will cause an exception. This needs
+ * to be fixed in a later iteration.
+ * @param {integer} id Id of the User
+ * @param {function} cb Callback function
+*/
 function loadUser(id, cb) {
   // ...
 }
@@ -454,3 +490,14 @@ Feel free to use getters that are free from [side effects][sideeffect], like
 providing a length property for a collection class.
 
 [sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
+
+## Code quality tool
+
+Assure constant code quality and catch **some** errors early with [JSLint][jslint]. E.g. use of reserved words, missing semicolons, missing function declarations or variables not being declared locally cluttering the global name space.
+
+[jslint]: http://jslint.com/
+
+### Used JSLint options
+```js
+/*jslint vars: true, node: true, indent: 4, maxlen: 80 */
+```
